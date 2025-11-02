@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Order Simulation using Promise</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #acb6e5);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 400px;
+    }
+    h2 {
+      color: #2b7ce9;
+      margin-bottom: 20px;
+    }
+    button {
+      background-color: #2b7ce9;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #1b5fc1;
+    }
+    #status {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Food Order Simulation (Promise Example)</h2>
+    <button id="orderBtn">Place Order</button>
+    <div id="status">Click "Place Order" to start</div>
+  </div>
+
+  <script>
+    const statusBox = document.getElementById("status");
+    const orderBtn = document.getElementById("orderBtn");
+
+    orderBtn.addEventListener("click", () => {
+      statusBox.textContent = "Order placed... waiting for confirmation";
+
+      const foodOrder = new Promise((resolve, reject) => {
+        const isAvailable = Math.random() > 0.4; // 60% chance success
+        setTimeout(() => {
+          if (isAvailable) {
+            resolve("✅ Order Delivered Successfully!");
+          } else {
+            reject("❌ Food Out of Stock!");
+          }
+        }, 2000);
+      });
+
+      foodOrder
+        .then((msg) => {
+          statusBox.style.color = "green";
+          statusBox.textContent = msg;
+        })
+        .catch((err) => {
+          statusBox.style.color = "red";
+          statusBox.textContent = err;
+        })
+        .finally(() => {
+          setTimeout(() => {
+            statusBox.style.color = "#333";
+            statusBox.textContent = "Thank you for ordering!";
+          }, 3500);
+        });
+    });
+  </script>
+</body>
+</html>
